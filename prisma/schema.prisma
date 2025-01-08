@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String
+  role      String   // "consumer" or "producer"
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  queues    Queue[]
+}
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  services  Service[]
+}
+
+model Service {
+  id        Int      @id @default(autoincrement())
+  name      String
+  companyId Int
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("closed") // Status do serviço, que pode ser "open" ou "closed"
+  company   Company  @relation(fields: [companyId], references: [id])
+  queues    Queue[]
+}
+
+model Queue {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  serviceId Int
+  status    String   // "waiting", "in_progress", "completed"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  service   Service  @relation(fields: [serviceId], references: [id])
+}

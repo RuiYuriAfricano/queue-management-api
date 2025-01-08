@@ -1,0 +1,13 @@
+import { IsString, IsInt, IsNotEmpty } from 'class-validator';
+
+export class CreateServiceDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsInt()
+  companyId: number;
+
+  @IsString()
+  status: string;  // Novo campo para status do serviço ("open" ou "closed")
+}
