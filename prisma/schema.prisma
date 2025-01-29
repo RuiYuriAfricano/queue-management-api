@@ -11,6 +11,7 @@ model User {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
+  password  String   @default("12345678")
   phone     String
   role      String   // "consumer" or "producer"
   deleted   Boolean  @default(false)
@@ -32,6 +33,7 @@ model Company {
 model Service {
   id        Int      @id @default(autoincrement())
   name      String
+  location      String @default("Camama, Luanda")
   companyId Int
   deleted   Boolean  @default(false)
   createdAt DateTime @default(now())

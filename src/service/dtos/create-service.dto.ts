@@ -10,4 +10,7 @@ export class CreateServiceDto {
 
   @IsString()
   status: string;  // Novo campo para status do serviço ("open" ou "closed")
+
+  @IsString()
+  location: string;
 }

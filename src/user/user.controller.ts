@@ -31,4 +31,8 @@ export class UserController {
   async softDeleteUser(@Param('id') id: number) {
     return this.userService.softDeleteUser(Number(id));
   }
+  @Post('login')
+  async login(@Body('email') email: string, @Body('password') password: string) {
+    return this.userService.login(email, password);
+  }
 }

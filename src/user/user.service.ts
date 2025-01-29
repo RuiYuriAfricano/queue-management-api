@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -35,5 +35,16 @@ export class UserService {
       where: { id },
       data: { deleted: true },
     });
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.prisma.user.findFirst({ where: { email, deleted: false } });
+    if (!user) throw new NotFoundException('User not found');
+
+    if (user.password !== password) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return user;
   }
 }
