@@ -10,6 +10,5 @@ export class CreateQueueDto {
   serviceId: number;
 
   @IsString()
-  @IsNotEmpty()
-  status: string; // \"waiting\", \"in_progress\", \"completed\"
+  status: string; // \"waiting\", \"abandoned\", \"completed\"
 }

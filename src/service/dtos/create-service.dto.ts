@@ -8,6 +8,9 @@ export class CreateServiceDto {
   @IsInt()
   companyId: number;
 
+  @IsInt()
+  averageServiceTime: number;
+
   @IsString()
   status: string;  // Novo campo para status do serviço ("open" ou "closed")
 
