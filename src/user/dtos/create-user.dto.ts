@@ -20,4 +20,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   role: string; // "consumer" or "producer"
+
+  @IsString()
+  profilePic: string;
 }
