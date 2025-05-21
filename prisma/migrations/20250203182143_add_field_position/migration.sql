@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `queue` ADD COLUMN `position` INTEGER NOT NULL DEFAULT 1;

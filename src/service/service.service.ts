@@ -14,6 +14,13 @@ export class ServiceService {
   async getAllServices() {
     return this.prisma.service.findMany({
       where: { deleted: false },
+      include:{
+        company:{
+          select:{
+            name: true
+          }
+        }
+      }
     });
   }
 
