@@ -5,7 +5,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post()
   async createUser(@Body() body: CreateUserDto) {
@@ -35,4 +35,14 @@ export class UserController {
   async login(@Body('email') email: string, @Body('password') password: string) {
     return this.userService.login(email, password);
   }
+  @Get('/producers/pending')
+  async getPendingProducers() {
+    return this.userService.getPendingProducers();
+  }
+
+  @Put('/producers/validate/:id')
+  async validateProducer(@Param('id') id: number) {
+    return this.userService.validateProducer(Number(id));
+  }
+
 }

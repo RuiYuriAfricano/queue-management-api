@@ -5,10 +5,22 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createUser(data: CreateUserDto) {
-    return this.prisma.user.create({ data });
+    const user = await this.prisma.user.create({ data });
+
+    if (user.role === "producer") {
+      const newData = {
+        name: user.name,
+        id: user.id,
+        description: ""
+      };
+
+      await this.prisma.company.create({ data: newData });
+    }
+
+    return user;
   }
 
   async getAllUsers() {
@@ -47,4 +59,28 @@ export class UserService {
 
     return user;
   }
+
+  async getPendingProducers() {
+  return this.prisma.user.findMany({
+    where: {
+      role: 'producer',
+      isValidated: false,
+      deleted: false,
+    },
+  });
+}
+
+async validateProducer(id: number) {
+  const user = await this.getUserById(id);
+
+  if (user.role !== 'producer') {
+    throw new UnauthorizedException('User is not a producer');
+  }
+
+  return this.prisma.user.update({
+    where: { id },
+    data: { isValidated: true },
+  });
+}
+
 }
