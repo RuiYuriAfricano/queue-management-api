@@ -31,12 +31,15 @@ export class ServiceService {
         id: id,  // Garantir que o id seja passado diretamente
         deleted: false,
       },
+      include: {
+        company: true, // Incluir todos os campos da empresa
+      },
     });
-  
+
     if (!service) throw new NotFoundException('Service not found');
     return service;
   }
-  
+
 
   async updateService(id: number, data: UpdateServiceDto) {
     await this.getServiceById(id);
