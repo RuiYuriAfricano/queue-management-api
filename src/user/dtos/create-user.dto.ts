@@ -22,5 +22,5 @@ export class CreateUserDto {
   role: string; // "consumer" or "producer"
 
   @IsString()
-  profilePic: string;
+  profilePic: string
 }
